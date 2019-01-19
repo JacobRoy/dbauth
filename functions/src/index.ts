@@ -5,9 +5,9 @@ import * as firebase from 'firebase-admin';
 // // https://firebase.google.com/docs/functions/typescript
 //
 firebase.initializeApp(functions.config().firebase);
-export const helloWorld = functions.https.onRequest((request, response) => {
- response.send("Hello from Firebase!");
-});
+// export const helloWorld = functions.https.onRequest((request, response) => {
+//  response.send("Hello from Firebase!");
+// });
 
 exports.addMessage = functions.https.onCall((data) => {
     const message = data.text;
