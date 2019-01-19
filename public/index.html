@@ -40,18 +40,8 @@
       var addMessage = firebase.functions().httpsCallable('addMessage');
         addMessage({text: messageText}).then(function(result) {
         // Read result of the Cloud Function.
-        var sanitizedMessage = result.data.text;
-        db = sanitizedMessage;
-        alert(sanitizedMessage);
-        var newId = Math.floor(Math.random()*4000)+1000;
-        var postData = {
-            id : newId,
-            name: messageText
-        }
-        var newPostKey = firebase.database().ref().child('participants').push().key;
-        var updates = {};
-        updates['/participants/' + newPostKey] = postData;
-        return firebase.database().ref().update(updates);
+          console.log(result.data);
+          alert("Added to database");
       });
     }
     </script>
