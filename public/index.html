@@ -1,38 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DBAuthentication</title>
-  </head>
-  <body>
-    <h3>SignUp</h3>
-    <label>New Email:</label><input type="email" id="n-email" placeholder="Enter your email">
-    <label>New Password:</label><input type="password" id="n-password" placeholder="Enter your password">
-    <button onclick="handleSignUp()">SignUp</button><br/>
-    <h3>SignIn</h3>
-    <label>Email:</label><input type="email" id="u-email" placeholder="Enter your email">
-    <label>Password:</label><input type="password" id="u-password" placeholder="Enter your password">
-    <button onclick="SignIn()" id='s-in'>SignIn</button>
-    <button onclick="SignOut()" id='s-out'>SignOut</button> 
-    <br/><br/>
-    <label>Name:</label><input type="text" id="message" placeholder="Enter your name">
-    <button onclick="myFunction()" >Submit</button>
 
-    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
-    <script>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DBAuthentication</title>
+</head>
+
+<body>
+  <h3>SignUp</h3>
+  <label>New Email:</label><input type="email" id="n-email" placeholder="Enter your email">
+  <label>New Password:</label><input type="password" id="n-password" placeholder="Enter your password">
+  <button onclick="handleSignUp()">SignUp</button><br />
+  <h3>SignIn</h3>
+  <label>Email:</label><input type="email" id="u-email" placeholder="Enter your email">
+  <label>Password:</label><input type="password" id="u-password" placeholder="Enter your password">
+  <button onclick="SignIn()" id='s-in'>SignIn</button>
+  <button onclick="SignOut()" id='s-out'>SignOut</button>
+  <br /><br />
+  <label>Name:</label><input type="text" id="message" placeholder="Enter your name">
+  <button onclick="myFunction()">Submit</button>
+
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-functions.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase-auth.js"></script>
+  <script>
     // Initialize Firebase
-      var config = {
+    var config = {
       apiKey: "AIzaSyBPFMFw2Ii9LvqyIzNh9ooM237Ravkzmx0",
       authDomain: "dbauth-fe496.firebaseapp.com",
       databaseURL: "https://dbauth-fe496.firebaseio.com",
       projectId: "dbauth-fe496",
       storageBucket: "dbauth-fe496.appspot.com",
       messagingSenderId: "1013332227088"
-      };
+    };
     firebase.initializeApp(config);
 
 
@@ -46,7 +48,7 @@
     //     });
     // }
 
-      function handleSignUp() {
+    function handleSignUp() {
       var email = document.getElementById('n-email').value;
       var password = document.getElementById('n-password').value;
       if (email.length < 4) {
@@ -59,7 +61,7 @@
       }
       // Sign in with email and pass.
       // [START createwithemail]
-      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+      firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -72,16 +74,16 @@
         console.log(error);
         // [END_EXCLUDE]
       });
-      if(firebase.auth().currentUser){
+      if (firebase.auth().currentUser) {
         alert("Signed Up successfully");
       }
       // [END createwithemail]
     }
 
-       function SignIn() {
-         if(firebase.auth().currentUser){
-           alert("Already Signed In");
-         }else{
+    function SignIn() {
+      if (firebase.auth().currentUser) {
+        alert("Already Signed In");
+      } else {
         var email = document.getElementById('u-email').value;
         var password = document.getElementById('u-password').value;
         if (email.length < 4) {
@@ -94,9 +96,9 @@
         }
         // Sign in with email and pass.
         // [START authwithemail]
-        firebase.auth().signInWithEmailAndPassword(email, password).then(function(){
+        firebase.auth().signInWithEmailAndPassword(email, password).then(function () {
           alert("Signed In");
-        }).catch(function(error) {
+        }).catch(function (error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
@@ -110,39 +112,42 @@
           // document.getElementById('quickstart-sign-in').disabled = false;
           // [END_EXCLUDE]
         });
-        
+
         // [END authwithemail]
       }
-     
+
       // document.getElementById('quickstart-sign-in').disabled = true;
     }
 
-    function SignOut(){
+    function SignOut() {
       if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
         alert("Signed-out");
         // [END signout]
-      }else{
+      } else {
         alert("Not Signed In");
       }
     }
 
-        function myFunction(){
-      if(firebase.auth().currentUser){
-      var message = document.getElementById('message');
-      var messageText = message.value;
-      var addMessage = firebase.functions().httpsCallable('addMessage');
-        addMessage({text: messageText}).then(function(result) {
-        // Read result of the Cloud Function.
+    function myFunction() {
+      if (firebase.auth().currentUser) {
+        var message = document.getElementById('message');
+        var messageText = message.value;
+        var addMessage = firebase.functions().httpsCallable('addMessage');
+        addMessage({
+          text: messageText
+        }).then(function (result) {
+          // Read result of the Cloud Function.
           console.log(result.data);
           alert("Added to database");
-      });
-    }else{
-      alert("Not Logged In");
+        });
+      } else {
+        alert("Not Logged In");
+      }
     }
-    }
-    </script>
-    
-  </body>
+  </script>
+
+</body>
+
 </html>
