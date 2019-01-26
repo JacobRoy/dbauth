@@ -4,7 +4,7 @@ import * as firebase from 'firebase-admin';
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-firebase.initializeApp(functions.config().firebase);
+firebase.initializeApp(functions.config().firebase,);
 // export const helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
@@ -29,6 +29,16 @@ exports.addMessage = functions.https.onCall((data) => {
     //     text: "Welcome "+message+"!"
     // }
   });
+
+//   exports.signUp = functions.https.onCall((data) =>{
+//       firebase.auth().createUser(data)
+//       .then(function(userRecord){
+//           console.log(userRecord.uid);
+//       })
+//       .catch(function(error){
+//           console.log("Error");
+//       });
+//    });
 
   export const onAddition = functions.database.ref('/participants/{pId}').onCreate((snapshot,context)=>{
     const newMember = context.params.pId;
